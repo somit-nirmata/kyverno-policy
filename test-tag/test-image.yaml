@@ -1,10 +1,16 @@
 metadata:
   name: "disallow-stable-tag"
   annotations:
-    policies.kyverno.io/category: "customPolicy"
-    policies.kyverno.io/description: "The ':test' tag is mutable and can lead to\
-      \ unexpected errors if the image changes.  A best practice is to use an immutable\
-      \ tag (e.g. v2.3) that maps to a specific version  of an application pod."
+    annotations:
+    policies.kyverno.io/title: Disallow Latest Tag
+    policies.kyverno.io/category: Best Practices
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/subject: Pod
+    policies.kyverno.io/description: >-
+      The ':stable' tag is mutable and can lead to unexpected errors if the
+      image changes. A best practice is to use an immutable tag that maps to
+      a specific version of an application Pod. This policy validates that the image
+      specifies a tag and that it is not called `stable`.
 apiVersion: "kyverno.io/v1"
 kind: "ClusterPolicy"
 spec:
