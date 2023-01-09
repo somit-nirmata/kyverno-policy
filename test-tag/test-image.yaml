@@ -2,7 +2,7 @@ metadata:
   name: "disallow-stable-tag"
   annotations:
     annotations:
-    policies.kyverno.io/title: Disallow Latest Tag
+    policies.kyverno.io/title: Disallow perl Tag
     policies.kyverno.io/category: Best Practices
     policies.kyverno.io/severity: medium
     policies.kyverno.io/subject: Pod
