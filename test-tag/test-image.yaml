@@ -1,40 +1,33 @@
-apiVersion: kyverno.io/v1
-kind: ClusterPolicy
 metadata:
-  name: disallow-latest-tag
+  name: "disallow-stable-tag"
   annotations:
-    policies.kyverno.io/title: Disallow Latest Tag
-    policies.kyverno.io/category: ss-custom
-    policies.kyverno.io/severity: medium
-    policies.kyverno.io/subject: Pod
-    policies.kyverno.io/description: >-
-      The ':latest' tag is mutable and can lead to unexpected errors if the
-      image changes. A best practice is to use an immutable tag that maps to
-      a specific version of an application Pod. This policy validates that the image
-      specifies a tag and that it is not called `latest`.      
+    policies.kyverno.io/category: "customPolicy"
+    policies.kyverno.io/description: "The ':test' tag is mutable and can lead to\
+      \ unexpected errors if the image changes.  A best practice is to use an immutable\
+      \ tag (e.g. v2.3) that maps to a specific version  of an application pod."
+apiVersion: "kyverno.io/v1"
+kind: "ClusterPolicy"
 spec:
-  validationFailureAction: audit
-  background: true
   rules:
-  - name: require-image-tag
-    match:
+  - match:
       resources:
         kinds:
-        - Pod
+        - "Pod"
+    name: "require-image-tag"
     validate:
-      message: "An image tag is required."
       pattern:
         spec:
           containers:
           - image: "*:*"
-  - name: validate-image-tag
-    match:
+      message: "An image tag is required."
+  - match:
       resources:
         kinds:
-        - Pod
+        - "Pod"
+    name: "validate-image-tag"
     validate:
-      message: "Using a mutable image tag e.g. 'latest' is not allowed."
       pattern:
         spec:
           containers:
-          - image: "!*:test"
+          - image: "!*:stable"
+      message: "Using the ':stable' tag is not recommended."
